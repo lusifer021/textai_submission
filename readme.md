@@ -13,17 +13,43 @@ error correction, and topic modeling.
 
 To get started with the TextAI API, follow the steps below:
 
-1.  Enter  our website [TextAI](https://merconlptoolkit-kyqzsyybbs.streamlit.app/).
-2.  Install the required dependencies for your programming language or
+1.  Enter  our website [TextAI](http://16.171.15.87:8080/).
+2.  Our API endpoint can be acessed here(http://13.48.148.47:8080/).
+3.  Install the required dependencies for your programming language or
     environment.
-3.  Make requests to the API endpoints described in the documentation
+4.  Make requests to the API endpoints described in the documentation
     below.
     
+
+# Response Body
+```
+    "choices": [
+        {
+            "finish_reason": "stop",
+            "index": 0,
+            "message": {
+                "content": "positive",
+                "role": "assistant"
+            }
+        }
+    ],
+    "created": 1688305534,
+    "id": "chatcmpl-7XrgMhHcmDJuQASXnqPzLCP0KmjTe",
+    "model": "gpt-3.5-turbo-0613",
+    "object": "chat.completion",
+    "usage": {
+        "completion_tokens": 1,
+        "prompt_tokens": 34,
+        "total_tokens": 35
+    }
+```
+This would be the main response and the the main content will be in response json_output["choices"][0]["message"]["content"] of all responses.
+
 # API Endpoints
 
 # Translate
 
-Endpoint: '/translate'
+Endpoint: '/translation'
 
 Method: 'POST'
 
@@ -60,6 +86,17 @@ Method: 'POST'
   |Parameter | Type | Description |
   |----------|------|-------------|
   | text     | string| The text to analyze.|
+
+## Code
+
+```
+import requests
+url = 'http://13.48.148.47:8080/pos'
+myobj = {'text': 'I love ice-cream'}
+x = requests.post(url, json = myobj)
+data = x.json()
+result = data["choices"][0]["message"]["content"]
+```
   
 ## Response
 
@@ -76,6 +113,16 @@ Method: 'POST'
   | Parameter | Type | Description |
   |-----------|------|-------------|
   | text      |string | Text to analyze |
+
+## Code
+```
+import requests
+url = 'http://13.48.148.47:8080/sentiment'
+myobj = {'text': 'I love ice-cream'}
+x = requests.post(url, json = myobj)
+data = x.json()
+result = data["choices"][0]["message"]["content"]
+```
   
 ## Response
 
@@ -84,7 +131,7 @@ sentiment score and sentiment label.
 
 # Question Answering
 
-Endpoint: '/qna'
+Endpoint: '/question-answer'
 
 Method: 'POST'
 
@@ -95,7 +142,16 @@ Method: 'POST'
   | passage      |string | Context Passage of text |
   | question | string | The question ask about the text |
   
+## Code
 
+```
+import requests
+url = 'http://13.48.148.47:8080/question-answer'
+myobj = {'question': 'What is you name?','context' : 'My name is Mrinmoy Mahato'}
+x = requests.post(url, json = myobj)
+data = x.json()
+result = data["choices"][0]["message"]["content"]
+```
 ## Response
 
 A JSON object containing the answer to the question based on the
@@ -103,7 +159,7 @@ provided text.
 
 # Text Summarization
 
-[Endpoint: '/summarize'
+[Endpoint: '/summary'
 
 Method: 'POST'
 
@@ -111,14 +167,25 @@ Method: 'POST'
  | Parameter | Type | Description |
   |-----------|------|-------------|
   | text      |string | Text to summarize |
-  
+
+## Code
+```
+import requests
+url = 'http://13.48.148.47:8080/summary'
+myobj = {'text': 'large-text'}
+x = requests.post(url, json = myobj)
+data = x.json()
+result = data["choices"][0]["message"]["content"]
+```
 
 ## Response
 
 A JSON object containing the summary of the text.
 
 # Semantic Textual Similarity
-Endpoint: '/similarity'
+
+Endpoint: '/similarity-checker'
+
 Method: 'POST'
 
 ## Request Parameters
@@ -126,6 +193,16 @@ Method: 'POST'
   |-----------|------|-------------|
   | text-1      |string | First text for comparison |
    | text-2      |string | Second text for comparison |
+
+## Code
+```
+import requests
+url = 'http://13.48.148.47:8080/similarity-checker'
+myobj = {'text1': 'I love ice-cream','text2' : 'I hate ice-cream'}
+x = requests.post(url, json = myobj)
+data = x.json()
+result = data["choices"][0]["message"]["content"]
+```
   
 ## Response
 A JSON object containing the similarity score of the two texts.
@@ -141,6 +218,78 @@ Method: 'POST'
   |-----------|------|-------------|
   | text      |string | The text to correct the grammatical errors.|
 
+## Code
+```
+import requests
+url = 'http://13.48.148.47:8080/grammar_check'
+myobj = {'text': 'I lov icecream'}
+x = requests.post(url, json = myobj)
+data = x.json()
+result = data["choices"][0]["message"]["content"]
+```
+
+## Response
+
+A JSON object containing the corrected text with grammatical errors
+corrected.
+
+
+
+# Offensive Detection
+
+Endpoint: '/offensive-detection'
+
+Method: 'POST'
+
+## Request Parameters
+| Parameter | Type | Description |
+|----------|----------|----------|
+| text   | string | The text to be checked for offensive language detection   |
+
+
+## Code
+```
+import requests
+url = 'http://13.48.148.47:8080/grammar_check'
+myobj = {'text': 'I hate icecream'}
+x = requests.post(url, json = myobj)
+data = x.json()
+result = data["choices"][0]["message"]["content"]
+```
+
+
+## Response
+
+A JSON object containing the offensive words.
+
+# Transliteration
+
+Endpoint: '/transliteration'
+
+Method: 'POST'
+
+## Request Parameters
+| Parameter | Type | Description |
+|----------|----------|----------|
+| text   | string | The text to be translated (it can be in any language)   |
+| targ_lang   | string | The language which the text need to be translated   |
+
+## Code
+```
+import requests
+url = 'http://13.48.148.47:8080/grammar_check'
+myobj = {'text': 'Mujhe kolkata jana h',"from_language":"hindi","to_language":"english"}
+x = requests.post(url, json = myobj)
+data = x.json()
+result = data["choices"][0]["message"]["content"]
+```
+
+## Response
+
+A JSON object containing the transliterated sentence.
+
+# Response Body
+```
     "choices": [
         {
             "finish_reason": "stop",
@@ -160,13 +309,10 @@ Method: 'POST'
         "prompt_tokens": 34,
         "total_tokens": 35
     }
-    
-This would be the main response and the the main content will be in response json_output["choices"][0]["message"]["content"]
+```
+This would be the main response and the the main content will be in response json_output["choices"][0]["message"]["content"] of all responses.
 
-## Response
-
-A JSON object containing the corrected text with grammatical errors
-corrected.
+# Future Features
 
 # Topic Modeling
 

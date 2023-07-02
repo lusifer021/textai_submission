@@ -19,31 +19,6 @@ To get started with the TextAI API, follow the steps below:
     environment.
 4.  Make requests to the API endpoints described in the documentation
     below.
-    
-
-# Response Body
-```
-    "choices": [
-        {
-            "finish_reason": "stop",
-            "index": 0,
-            "message": {
-                "content": "positive",
-                "role": "assistant"
-            }
-        }
-    ],
-    "created": 1688305534,
-    "id": "chatcmpl-7XrgMhHcmDJuQASXnqPzLCP0KmjTe",
-    "model": "gpt-3.5-turbo-0613",
-    "object": "chat.completion",
-    "usage": {
-        "completion_tokens": 1,
-        "prompt_tokens": 34,
-        "total_tokens": 35
-    }
-```
-This would be the main response and the the main content will be in response json_output["choices"][0]["message"]["content"] of all responses.
 
 # API Endpoints
 

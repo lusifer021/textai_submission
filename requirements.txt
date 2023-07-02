@@ -1,0 +1,6 @@
+Flask
+openai
+Requests
+tenacity
+termcolor
+waitress
